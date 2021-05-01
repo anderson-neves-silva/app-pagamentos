@@ -22,9 +22,17 @@ export default class User extends React.Component {
         <ul>
           { this.state.persons.map(person => ( 
             <div id="container">
-              <img src={person.img} alt=""/>
-              <li> {person.name} </li>
-              <li><button>Pagar</button></li>
+              <div>
+                <img src={person.img} alt=""/>
+              </div>
+              <div id="user-data">
+                <li> Nome do Usuário: {person.name} </li>
+                <li> ID: {person.id} </li>
+                <li> Username: {person.username} </li>
+              </div>
+              <div>
+                <button>Pagar</button>
+              </div>
             </div>))}
         </ul>
       </>
