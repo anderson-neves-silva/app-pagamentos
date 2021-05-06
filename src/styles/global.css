@@ -20,7 +20,8 @@ button {
   height: 35px;
   padding-right: 10px;
   padding-left: 10px;
-  border-radius: 5px;
+  border-radius: 7px;
+  width: 5em;
 }
 
 a {
@@ -31,14 +32,77 @@ ul {
   list-style-type: none;
 }
 
-#container {
-  display: flex;
-  
-  justify-content: space-between;
+h4 {
+  margin-left: 10px;
+}
+
+.container {
+  display: flex;  
+  justify-content: space-around;
+  align-items: center;
   max-width: 760px;
-  height: 170px;
   margin: 20px auto;
   padding: 20px;
   border: 1px solid #3333;
   background-color: #5FC85A;
+}
+
+.picture img {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;  
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: 0 auto;
+  width: 400px;
+  height: 250px;
+  transform: translate(-50%, -50%);
+}
+
+.modalInterna {
+  background: #f0f2f5;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.cabecalho {
+  margin: 0;
+  background-color: #469748;
+  padding: 10px;
+  margin-bottom: 1.5em;
+  width: 100%;
+}
+
+form {
+  width: 350px;
+  border: 1px solid #469748;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form div {
+  margin-bottom: 1em;
+}
+
+form select {
+  width: 14em;
+}
+
+button:hover {
+  color: #fff;
+}
+
+form button:hover {
+  background-color: #469748;
+  color: #fff;
+}
+
+#botaoVoltar {
+  margin-left: 20px;
 }
