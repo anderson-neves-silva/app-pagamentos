@@ -8,13 +8,15 @@ function User() {
   // A setPersons irá alterar o valor de persons através do hook, Obs. começa valendo um array vazio
   const [persons, setPersons ]= useState([]);
   // Criando a variável na state que irá mostrar o modal que inicia valendo none
-  const [viewModal, setViewModal] = useState("none");  
+  const [viewModal, setViewModal] = useState("none");
   // Objeto de valor inicial vazio
   const [selectPerson, setSelectPerson] = useState({});
   // Iniciando com valor vazio, Obs. variável que trata o input para envio
   const [searchParam1, setSearchParam1] = useState("");
   // 
   const [searchParam2, setSearchParam2] = useState("");
+
+  const [viewModalResposta, setViewModalResposta] = useState("none");
  
   let cards = [    
     { // valid card
@@ -74,15 +76,18 @@ function User() {
     .then((data) => data.json())
     .then((result) => { // Retornando o resultado
       console.log(result);
-      if (result.success === true) {
+      if (result.status === "Aprovada") {
         setViewModal("none");
+        setViewModalResposta("block");
         setSearchParam1("");
         setSearchParam2("");
         
-        alert("Aprovadro!");
+        alert("O pagamento foi concluido com sucesso.");
+        console.log(result);
       } else {
 
-        alert("Não foi Aprovadro!");
+        alert("O pagamento NÃO foi concluido com sucesso.");
+        console.log(result);
       }      
     }).catch(err => console.log(err));
   }
@@ -92,11 +97,16 @@ function User() {
     setViewModal("none");
   }
 
+  const setFecharResposta = (e) => {
+    e.preventDefault();
+    setViewModalResposta("none");
+  }
+
   return (
     <>
       { persons.map(result => {
         return <ul>
-          <div className="container">
+          <div className="containerList">
             <div className="picture">
               <img src={result.img} alt=""/>
             </div>
@@ -107,7 +117,7 @@ function User() {
             </div>
             <div>
               {/* Função inline mas só que irá retornar o objeto que está sendo capturado via click */}
-              <button onClick={() => {handleClick(result)}}>Pagar</button>
+              <button onClick={() => { handleClick(result) }}>Pagar</button>
             </div>          
           </div>
           </ul>
@@ -115,34 +125,43 @@ function User() {
       }
 
       {/* Chama a variável que foi definida na state que determina se irá abrir o modal */}
-      <div className="modal" style={{display:viewModal}}>
-       <div className="modalInterna">
-         <form onSubmit={handleSearch}>
-           <div className="cabecalho">
-             <h4>Pagamento para <span className="nameUser">{selectPerson.name}</span></h4>
-           </div>
-           <div>
-             {/* Função que cuida da entrada do user, aqui chamamos a variável que está criada lá em cima, Obs. aqui mandamos o evento com o target pegando o valor com o value */}
-             <input onChange={(e) => { setSearchParam1(e.target.value) }} min="0.01" step="0.01" type="number" placeholder="R$ 0,00" value={searchParam1} />
-           </div>
-           <div>
-             <select onChange ={(e) => { setSearchParam2(e.target.value) }} requerid>
-              <option value="" selected>Selecione um cartão</option>
-              {
-                cards.map((cartao, i) => {
-                  return <option value={i}>{cartao.card_number.substring(12)}</option>
-                })
-              }
-             </select>
-           </div>
-           <div>
-             {/* Chamando a função que irá fazer a busca do pagamento */}
-             <button type="submit">Pagar</button>
-             <button onClick ={setFecharModal} className="buttonClosed">Fechar</button>
-           </div>
-         </form>
-       </div>
-     </div>
+      <div className="modal" style={{display: viewModal}}>
+        <div className="modalInterna">
+          <form onSubmit={ handleSearch }>
+            <div className="cabecalho">
+              <h4>Pagamento para <span className="nameUser">{selectPerson.name}</span></h4>
+            </div>
+            <div>
+              {/* Função que cuida da entrada do user, aqui chamamos a variável que está criada lá em cima, Obs. aqui mandamos o evento com o target pegando o valor com o value */}
+              <input onChange={(e) => { setSearchParam1(e.target.value) }} min="0.01" step="0.01" type="number" placeholder="R$ 0,00" value={searchParam1} />
+            </div>
+            <div>
+              <select onChange ={(e) => { setSearchParam2(e.target.value) }} requerid>
+                <option value="" selected>Selecione um cartão</option>
+                {
+                  cards.map((cartao, i) => {
+                    return <option value={i}>{cartao.card_number.substring(12)}</option>
+                  })
+                }
+              </select>
+            </div>
+            <div>
+              {/* Chamando a função que irá fazer a busca do pagamento */}
+              <button type="submit">Pagar</button>
+              <button onClick ={setFecharModal} className="buttonClosed">Fechar</button>
+            </div>
+          </form>         
+        </div>       
+      </div>
+
+      <div className="containerResposta" style={{display: viewModalResposta}}>
+        <div className="modalResposta">
+          <div className="cabecalhoModal">
+            <h1>Recibo de pagamento</h1>
+            <span onClick ={setFecharResposta}>X</span>
+          </div>
+        </div>
+      </div>
     </>
   )
 }
