@@ -78,7 +78,7 @@ h4 {
 }
 
 form {
-  width: 350px;
+  width: 360px;
   border: 1px solid #469748;
   border-radius: 6px;
   display: flex;
@@ -103,6 +103,10 @@ form button:hover {
   color: #fff;
 }
 
-#botaoVoltar {
+form .buttonClosed {
   margin-left: 20px;
+}
+
+.nameUser {
+  color: yellow;
 }
