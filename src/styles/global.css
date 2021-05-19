@@ -127,6 +127,13 @@ form .buttonClosed {
   background-color: #fff;
 }
 
+.modalResposta p {  
+  color: #333333;
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 40px;
+}
+
 .cabecalhoModal {
   margin: 0;
   background-color: #469748;

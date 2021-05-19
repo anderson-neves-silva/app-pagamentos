@@ -13,10 +13,9 @@ function User() {
   const [selectPerson, setSelectPerson] = useState({});
   // Iniciando com valor vazio, Obs. variável que trata o input para envio
   const [searchParam1, setSearchParam1] = useState("");
-  // 
   const [searchParam2, setSearchParam2] = useState("");
-
   const [viewModalResposta, setViewModalResposta] = useState("none");
+  const [confimacaoPagamento, setConimacaoPagamento] = useState();
  
   let cards = [    
     { // valid card
@@ -44,8 +43,8 @@ function User() {
   // Função que recebe o objeto no evento click
   const handleClick = (result) => {
     if (selectPerson.id === result.id) {
-
-      setViewModal();  // Fechar o modal clicando de novo no mesmo botão do user, mas passando "none" no parêntese
+      // Fechar o modal clicando de novo no mesmo botão do user, mas passando "none" no parêntese
+      setViewModal();  
     } else {
 
       setViewModal("block");  // Se o botão clicado não seja o mesmo ele mostra o nome do user clicado
@@ -75,20 +74,23 @@ function User() {
     })
     .then((data) => data.json())
     .then((result) => { // Retornando o resultado
-      console.log(result);
-      if (result.status === "Aprovada") {
+      // console.log(result);
+      if (searchParam2 === "0") {
         setViewModal("none");
         setViewModalResposta("block");
         setSearchParam1("");
         setSearchParam2("");
-        
-        alert("O pagamento foi concluido com sucesso.");
-        console.log(result);
-      } else {
+        setConimacaoPagamento(result.success);
+        // console.log(result);
 
-        alert("O pagamento NÃO foi concluido com sucesso.");
-        console.log(result);
-      }      
+      } else if (searchParam2 === "1") {
+          setViewModal("none");
+          setViewModalResposta("block");
+          setSearchParam1("");
+          setSearchParam2("");          
+          setConimacaoPagamento(false);
+          // console.log(result);
+        }    
     }).catch(err => console.log(err));
   }
 
@@ -159,6 +161,11 @@ function User() {
           <div className="cabecalhoModal">
             <h1>Recibo de pagamento</h1>
             <span onClick ={setFecharResposta}>X</span>
+          </div>
+          <div>
+            <p>
+              {confimacaoPagamento ? 'O pagamento foi concluido com sucesso.' : 'O pagamento NÃO foi concluido com sucesso.'}
+            </p>
           </div>
         </div>
       </div>
